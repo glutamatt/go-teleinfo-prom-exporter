@@ -1,12 +1,10 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/tarm/serial"
 
@@ -16,45 +14,60 @@ import (
 	teleinfo "github.com/j-vizcaino/goteleinfo"
 )
 
+var registry *prometheus.Registry
+var labels []string //metric label names
+
 func main() {
-	//-----------------------
-	registry := prometheus.NewRegistry()
-	opsProcessed := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "myapp_processed_ops_total",
-		Help: "The total number of processed events",
-	})
-	registry.Register(opsProcessed)
-	go func() {
-		for {
-			opsProcessed.Inc()
-			time.Sleep(time.Second)
-		}
-	}()
-	//-----------------------
+	labels = []string{"OPTARIF", "HHPHC", "PTEC"}
+	metrics := map[string]*MetricCollector{
+		"BASE":  &MetricCollector{desc: prometheus.NewDesc("teleinfo_base", "Index option, en Watt heure", labels, nil), valType: prometheus.CounterValue},
+		"PAPP":  &MetricCollector{desc: prometheus.NewDesc("teleinfo_ppap", "Puissance apparente, en VA (Volt Ampères)", labels, nil), valType: prometheus.GaugeValue},
+		"IINST": &MetricCollector{desc: prometheus.NewDesc("teleinfo_iinst", "Intensité Instantanée, Ampères", labels, nil), valType: prometheus.GaugeValue},
+	}
 
 	var serialDevice string
-	flag.StringVar(&serialDevice, "device", "/dev/ttyUSB0", "Serial port to read frames from")
+	flag.StringVar(&serialDevice, "device", "/dev/serial0", "Serial port to read frames from")
 	flag.Parse()
-
-	ctx, cancelFunc := context.WithCancel(context.Background())
-	defer cancelFunc()
-	frames, err := initTeleinfo(ctx, serialDevice)
+	frames, err := initTeleinfo(serialDevice)
 	if err != nil {
 		panic(err)
+	}
+	HandleMetrics(metrics, frames)
+	http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+	http.ListenAndServe(":2112", nil)
+}
+
+func HandleMetrics(metrics map[string]*MetricCollector, frames <-chan teleinfo.Frame) {
+	registry = prometheus.NewRegistry()
+	for _, m := range metrics {
+		m.labels = []string{}
+		registry.MustRegister(m)
 	}
 
 	go func() {
 		for frame := range frames {
 			log.Printf("%#v\n", frame)
+
+			labelVals := make([]string, len(labels))
+			for i, l := range labels {
+				if val, ok := frame.GetStringField(l); ok {
+					labelVals[i] = val
+				}
+			}
+
+			for f, m := range metrics {
+				m.labels = labelVals
+				if val, ok := frame.GetUIntField(f); ok {
+					m.val = val
+				}
+			}
 		}
+
 		log.Println("No more frames from channel (closed)")
 	}()
-
-	http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
-	http.ListenAndServe(":2112", nil)
 }
 
-func initTeleinfo(ctx context.Context, serialDevice string) (<-chan teleinfo.Frame, error) {
+func initTeleinfo(serialDevice string) (<-chan teleinfo.Frame, error) {
 	port, err := teleinfo.OpenPort(serialDevice)
 	if err != nil {
 		return nil, fmt.Errorf("Error teleinfo open port: %v", err)
@@ -68,14 +81,6 @@ func initTeleinfo(ctx context.Context, serialDevice string) (<-chan teleinfo.Fra
 
 		log.Println("Reading teleinfo serial port " + serialDevice)
 		for {
-			select {
-			case <-ctx.Done():
-				log.Println("Done with teleinfo reading")
-				close(frames)
-				return
-			default:
-			}
-
 			frame, err := reader.ReadFrame()
 			if err != nil {
 				log.Printf("Error reading frame from '%s' (%s)\n", serialDevice, err)
@@ -86,4 +91,23 @@ func initTeleinfo(ctx context.Context, serialDevice string) (<-chan teleinfo.Fra
 	}(port)
 
 	return frames, nil
+}
+
+type MetricCollector struct {
+	val     uint
+	valType prometheus.ValueType
+	labels  []string
+	desc    *prometheus.Desc
+}
+
+func (l *MetricCollector) Describe(ch chan<- *prometheus.Desc) {
+	ch <- l.desc
+}
+func (l *MetricCollector) Collect(ch chan<- prometheus.Metric) {
+	m, err := prometheus.NewConstMetric(l.desc, l.valType, float64(l.val), l.labels...)
+	if err != nil {
+		log.Printf("MetricCollector Collect error on NewConstMetric: %v", err)
+		return
+	}
+	ch <- m
 }
