@@ -15,6 +15,15 @@ ssh -t  pi@192.168.0.18 ./go-teleinfo-prom-exporter -device /dev/serial0
 
 https://medium.freecodecamp.org/the-easy-way-to-set-up-docker-on-a-raspberry-pi-7d24ced073ef
 
+`docker run -d -p 3000:3000 --name grafana fg2it/grafana-armhf:v5.1.4`
+
+```
+wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.3.2.linux-armv7.tar.gz 
+tar -zxvf grafana-5.3.2.linux-armv7.tar.gz
+cd grafana-5.3.2
+./bin/grafana-server         
+```
+
 -----------------------------------
 # pour regler le port serie correctement sur le fichier /dev/serial0
 # se fait programmaticly en go
