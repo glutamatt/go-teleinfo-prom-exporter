@@ -28,11 +28,7 @@ func main() {
 	var serialDevice string
 	flag.StringVar(&serialDevice, "device", "/dev/serial0", "Serial port to read frames from")
 	flag.Parse()
-	frames, err := initTeleinfo(serialDevice)
-	if err != nil {
-		panic(err)
-	}
-	HandleMetrics(metrics, frames)
+	HandleMetrics(metrics, initTeleinfo(serialDevice))
 	http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	http.ListenAndServe(":2112", nil)
 }
@@ -67,10 +63,10 @@ func HandleMetrics(metrics map[string]*MetricCollector, frames <-chan teleinfo.F
 	}()
 }
 
-func initTeleinfo(serialDevice string) (<-chan teleinfo.Frame, error) {
+func initTeleinfo(serialDevice string) <-chan teleinfo.Frame {
 	port, err := teleinfo.OpenPort(serialDevice)
 	if err != nil {
-		return nil, fmt.Errorf("Error teleinfo open port: %v", err)
+		panic(fmt.Errorf("Error teleinfo open port: %v", err))
 	}
 
 	frames := make(chan teleinfo.Frame)
@@ -90,7 +86,7 @@ func initTeleinfo(serialDevice string) (<-chan teleinfo.Frame, error) {
 		}
 	}(port)
 
-	return frames, nil
+	return frames
 }
 
 type MetricCollector struct {
