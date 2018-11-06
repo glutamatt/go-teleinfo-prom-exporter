@@ -31,14 +31,15 @@ cd grafana-5.3.2
 
 #### some dirs as ram partitions
 
-> `sudo mkdir /var/prometheus`
+> `sudo mkdir -p /var/prometheus/data/wal`
+> `sudo chmod -R 777 /var/prometheus`
 
 then add at the end of `/etc/fstab` file 
 
 ```
 tmpfs /tmp tmpfs defaults,noatime,nosuid,size=10m 0 0
 tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=10m 0 0
-tmpfs /var/prometheus tmpfs defaults,noatime,nosuid,size=500m 0 0
+tmpfs /var/prometheus/data/wal tmpfs defaults,noatime,nosuid,size=20m 0 0
 tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=10m 0 0
 ```
 
