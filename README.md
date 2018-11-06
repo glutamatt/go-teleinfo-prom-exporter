@@ -82,6 +82,8 @@ token = {"access_token":"*****","token_type":"bearer","expiry":"0001-01-01T00:00
 
 ### Run rclone
 
-> `rclone copy /var/prometheus prombackup:prometheus-backup --exclude data/wal/**`
+> backup `rclone copy /var/prometheus prombackup:prometheus-backup --exclude data/wal/**`
+
+> restore `rclone copy prombackup:prometheus-backup /var/prometheus --exclude data/wal/**`
 
 for quick and dirty repeat : `watch --interval 120`
