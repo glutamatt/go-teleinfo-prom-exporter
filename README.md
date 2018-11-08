@@ -68,6 +68,19 @@ cd prometheus-2.4.3.linux-armv7
 ./prometheus --config.file=/home/pi/prometheus.yml --storage.tsdb.path=/var/prometheus/data --storage.tsdb.retention=30d --web.enable-lifecycle --web.console.libraries=console_libraries --web.console.templates=consoles
 ```
 
+## DHT11
+
+
+#### install go and git on rasp to compile `printer`
+
+[install go on rasp](https://gist.githubusercontent.com/random-robbie/1f7f94beda1221b8125b62abe35f45b6/raw/089cb3b6abe6b564303cdfa524e9a3f0cc8a2b1f/install_go_pi.sh) then `sudo apt install git`
+
+```
+scp dht11/printer.go pi@192.168.0.18:/tmp/.
+ssh pi@192.168.0.18
+cd /tmp/ && go build printer.go && mv printer ~/dht11printer
+```
+
 ## Rclone
 
 ### config 
