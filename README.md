@@ -10,6 +10,15 @@ scp go-teleinfo-prom-exporter   pi@192.168.0.18:.
 ssh -t  pi@192.168.0.18 ./go-teleinfo-prom-exporter -device /dev/serial0
 ```
 
+## Weather
+
+```
+cd weather
+GOOS=linux GOARCH=arm GOARM=7 go build -o weather-exporter
+scp weather-exporter pi@192.168.0.18:.
+ssh pi@192.168.0.18
+WEATHER_API_KEY=xxx ./weather-exporter
+```
 
 ## Notes sur le PI
 
