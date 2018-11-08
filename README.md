@@ -81,6 +81,13 @@ ssh pi@192.168.0.18
 cd /tmp/ && go build printer.go && mv printer ~/dht11printer
 ```
 
+```
+GOOS=linux GOARCH=arm GOARM=7 go build -o dht11exporter dht11/exporter.go
+scp dht11exporter pi@192.168.0.18:.
+ssh  pi@192.168.0.18
+./dht11printer | ./dht11exporter
+```
+
 ## Rclone
 
 ### config 

@@ -12,3 +12,4 @@
 *.out
 vendor/
 weather/weather-exporter
+dht11exporter

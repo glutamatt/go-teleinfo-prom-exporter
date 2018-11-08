@@ -48,11 +48,11 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1541633249973,
+  "iteration": 1541720565394,
   "links": [],
   "panels": [
     {
@@ -60,24 +60,25 @@
       "colorBackground": false,
       "colorPostfix": false,
       "colorPrefix": false,
-      "colorValue": true,
+      "colorValue": false,
       "colors": [
         "#299c46",
         "rgba(237, 155, 40, 0.89)",
         "#d44a3a"
       ],
       "datasource": "${DS_RASP}",
+      "decimals": 1,
       "format": "watt",
       "gauge": {
-        "maxValue": 3000,
+        "maxValue": 1500,
         "minValue": 0,
         "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
+        "h": 4,
+        "w": 2,
         "x": 0,
         "y": 0
       },
@@ -130,7 +131,172 @@
       "title": "",
       "transparent": true,
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#447ebc",
+        "#e5ac0e",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_RASP}",
+      "format": "celsius",
+      "gauge": {
+        "maxValue": 25,
+        "minValue": 14,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": false
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 0
+      },
+      "id": 10,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.07)",
+        "full": false,
+        "lineColor": "rgba(31, 120, 193, 0.29)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "dht11_temperature",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "17,21",
+      "title": "",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": true,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#e5ac0e",
+        "#629e51",
+        "#0a437c"
+      ],
+      "datasource": "${DS_RASP}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 80,
+        "minValue": 30,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 4,
+        "y": 0
+      },
+      "id": 11,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "%",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.07)",
+        "full": false,
+        "lineColor": "rgba(31, 120, 193, 0.29)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "dht11_humidity",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "45,65",
+      "title": "",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "100%",
       "valueMaps": [
         {
           "op": "=",
@@ -149,9 +315,9 @@
       "fill": 0,
       "gridPos": {
         "h": 10,
-        "w": 21,
-        "x": 3,
-        "y": 0
+        "w": 24,
+        "x": 0,
+        "y": 4
       },
       "id": 4,
       "legend": {
@@ -164,7 +330,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 2,
+      "linewidth": 5,
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
@@ -246,12 +412,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_RASP}",
-      "fill": 1,
+      "fill": 3,
       "gridPos": {
         "h": 8,
-        "w": 21,
-        "x": 3,
-        "y": 10
+        "w": 24,
+        "x": 0,
+        "y": 14
       },
       "id": 2,
       "legend": {
@@ -325,40 +491,52 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "Humidité extérieure": "rgba(0, 92, 255, 0.3)",
+        "Humidité intérieure": "rgb(0, 92, 255)",
+        "Température extérieur": "rgba(255, 53, 0, 0.3)",
+        "Température intérieure": "rgb(255, 53, 0)"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_RASP}",
-      "fill": 0,
+      "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 21,
-        "x": 3,
-        "y": 18
+        "w": 24,
+        "x": 0,
+        "y": 22
       },
       "id": 8,
       "legend": {
         "alignAsTable": false,
         "avg": false,
         "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
       "pointradius": 2,
-      "points": true,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
           "alias": "Humidité extérieure",
+          "yaxis": 2
+        },
+        {
+          "alias": "Humidité intérieure",
           "yaxis": 2
         }
       ],
@@ -367,18 +545,33 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "weather_temperature",
+          "expr": "quantile_over_time(0.7, dht11_temperature[$interval])",
           "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Température intérieure",
+          "refId": "D"
+        },
+        {
+          "expr": "quantile_over_time(0.7, weather_temperature[$interval])",
+          "format": "time_series",
+          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Température extérieur",
           "refId": "A"
         },
         {
-          "expr": "weather_humidity",
+          "expr": "weather_humidity != 0",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Humidité extérieure",
           "refId": "B"
+        },
+        {
+          "expr": "dht11_humidity",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Humidité intérieure",
+          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -390,7 +583,7 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
+      "transparent": true,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -405,15 +598,15 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
           "format": "humidity",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "100",
+          "min": "0",
           "show": true
         }
       ],
@@ -423,7 +616,7 @@
       }
     }
   ],
-  "refresh": "30s",
+  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -515,7 +708,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -546,5 +739,5 @@
   "timezone": "",
   "title": "Teleinfo",
   "uid": "hgeJO--mk",
-  "version": 28
+  "version": 42
 }
