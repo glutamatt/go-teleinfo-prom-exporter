@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1541720565394,
+  "iteration": 1541861291137,
   "links": [],
   "panels": [
     {
@@ -144,6 +144,92 @@
     {
       "cacheTimeout": null,
       "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 155, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_RASP}",
+      "decimals": 1,
+      "format": "amp",
+      "gauge": {
+        "maxValue": 35,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 0
+      },
+      "hideTimeOverride": false,
+      "id": 12,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(46, 59, 72, 0.68)",
+        "full": false,
+        "lineColor": "rgba(31, 118, 189, 0.0)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "teleinfo_iinst",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "20,30",
+      "title": "",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
       "colorValue": false,
       "colors": [
         "#447ebc",
@@ -162,7 +248,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 2,
+        "x": 4,
         "y": 0
       },
       "id": 10,
@@ -245,7 +331,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 4,
+        "x": 6,
         "y": 0
       },
       "id": 11,
@@ -407,7 +493,9 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "Intensité instantanée": "#bf1b00"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -422,12 +510,12 @@
       "id": 2,
       "legend": {
         "avg": false,
-        "current": false,
-        "max": false,
+        "current": true,
+        "max": true,
         "min": false,
-        "show": false,
+        "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -437,7 +525,14 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "Intensité instantanée",
+          "fill": 1,
+          "linewidth": 2,
+          "yaxis": 2
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -445,15 +540,32 @@
         {
           "expr": "avg_over_time(teleinfo_ppap{job=\"teleinfo\"}[$interval])",
           "format": "time_series",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Puissance apparente",
           "refId": "A"
+        },
+        {
+          "expr": "max_over_time(teleinfo_iinst{job=\"teleinfo\"}[$interval])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "Intensité instantanée",
+          "refId": "B"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 30,
+          "yaxis": "right"
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Puissance apparente (Volt-Ampère)",
+      "title": "Puissance apparente (Volt-Ampère) + Intensité max (Ampère)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -472,17 +584,17 @@
           "format": "voltamp",
           "label": null,
           "logBase": 1,
-          "max": null,
+          "max": "7700",
           "min": "0",
           "show": true
         },
         {
-          "format": "celsius",
+          "format": "amp",
           "label": null,
           "logBase": 1,
-          "max": null,
+          "max": "35",
           "min": "0",
-          "show": false
+          "show": true
         }
       ],
       "yaxis": {
@@ -494,8 +606,8 @@
       "aliasColors": {
         "Humidité extérieure": "rgba(0, 92, 255, 0.3)",
         "Humidité intérieure": "rgb(0, 92, 255)",
-        "Température extérieur": "rgba(255, 53, 0, 0.3)",
-        "Température intérieure": "rgb(255, 53, 0)"
+        "Température extérieur": "rgba(255, 125, 0, 0.3)",
+        "Température intérieure": "rgb(255, 125, 0)"
       },
       "bars": false,
       "dashLength": 10,
@@ -708,7 +820,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -739,5 +851,5 @@
   "timezone": "",
   "title": "Teleinfo",
   "uid": "hgeJO--mk",
-  "version": 42
+  "version": 46
 }
