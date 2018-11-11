@@ -61,11 +61,29 @@ tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=10m 0 0
 
 #### Prometheus Binary
 
+> prepare patched binary from laptop
+
 ```
-curl -sSLO https://github.com/prometheus/prometheus/releases/download/v2.4.3/prometheus-2.4.3.linux-armv7.tar.gz
-tar -xvf prometheus-2.4.3.linux-armv7.tar.gz
-cd prometheus-2.4.3.linux-armv7
-./prometheus --config.file=/home/pi/prometheus.yml --storage.tsdb.path=/var/prometheus/data --storage.tsdb.retention=30d --web.enable-lifecycle --web.console.libraries=console_libraries --web.console.templates=consoles
+git clone git@github.com:glutamatt/prometheus.git
+cd prometheus
+git checkout v2.4.3
+go install github.com/prometheus/promu
+promu crossbuild -v
+cd .build/linux-armv7/
+ssh pi@192.168.0.18 mkdir -p prometheus
+scp prometheus  promtool pi@192.168.0.18:prometheus/.
+```
+
+> on the raspberry
+
+```
+~/prometheus/prometheus \
+    --config.file=/home/pi/prometheus.yml \
+    --storage.tsdb.path=/var/prometheus/data \
+    --storage.tsdb.max-block-duration=1h \
+    --storage.tsdb.retention=30d \
+    --storage.tsdb.wal-segment-size=1048576 \
+    --web.enable-lifecycle
 ```
 
 ## DHT11
