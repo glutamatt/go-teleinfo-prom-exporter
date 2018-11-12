@@ -1,5 +1,7 @@
 # go-teleinfo-prom-exporter
 
+## Gather Power consumption 💡⚡ (in France), Temperature 🌡☀❄ , Humidity  💧💦 (in and outside the 🏡 house 🏕 ) with a Raspberry PI
+
 #### pour regler le port serie correctement sur le fichier /dev/serial0 (se fait programmaticly en go)
 
 `stty -F /dev/serial0 1200 sane evenp parenb cs7 -crtscts`
