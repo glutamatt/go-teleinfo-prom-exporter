@@ -48,11 +48,11 @@
       }
     ]
   },
-  "editable": false,
+  "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1541861291137,
+  "iteration": 1542318630834,
   "links": [],
   "panels": [
     {
@@ -494,7 +494,8 @@
     },
     {
       "aliasColors": {
-        "Intensité instantanée": "#bf1b00"
+        "Intensité instantanée": "#bf1b00",
+        "Intensité max": "#bf1b00"
       },
       "bars": false,
       "dashLength": 10,
@@ -527,7 +528,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "Intensité instantanée",
+          "alias": "Intensité max",
           "fill": 1,
           "linewidth": 2,
           "yaxis": 2
@@ -549,7 +550,7 @@
           "expr": "max_over_time(teleinfo_iinst{job=\"teleinfo\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Intensité instantanée",
+          "legendFormat": "Intensité max",
           "refId": "B"
         }
       ],
@@ -584,15 +585,15 @@
           "format": "voltamp",
           "label": null,
           "logBase": 1,
-          "max": "7700",
-          "min": "0",
+          "max": "6820",
+          "min": null,
           "show": true
         },
         {
           "format": "amp",
           "label": null,
           "logBase": 1,
-          "max": "35",
+          "max": "31",
           "min": "0",
           "show": true
         }
@@ -604,16 +605,16 @@
     },
     {
       "aliasColors": {
-        "Humidité extérieure": "rgba(0, 92, 255, 0.3)",
+        "Humidité extérieure": "rgba(0, 92, 255, 0.5)",
         "Humidité intérieure": "rgb(0, 92, 255)",
-        "Température extérieur": "rgba(255, 125, 0, 0.3)",
+        "Température extérieur": "rgba(255, 125, 0, 0.5)",
         "Température intérieure": "rgb(255, 125, 0)"
       },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_RASP}",
-      "fill": 1,
+      "fill": 0,
       "gridPos": {
         "h": 8,
         "w": 24,
@@ -635,7 +636,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 3,
+      "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
@@ -710,15 +711,15 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
           "format": "humidity",
           "label": null,
           "logBase": 1,
-          "max": "100",
-          "min": "0",
+          "max": null,
+          "min": null,
           "show": true
         }
       ],
@@ -728,7 +729,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "10s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -851,5 +852,5 @@
   "timezone": "",
   "title": "Teleinfo",
   "uid": "hgeJO--mk",
-  "version": 46
+  "version": 47
 }
