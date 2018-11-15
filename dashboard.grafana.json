@@ -48,11 +48,11 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1542318630834,
+  "iteration": 1542318630837,
   "links": [],
   "panels": [
     {
@@ -852,5 +852,5 @@
   "timezone": "",
   "title": "Teleinfo",
   "uid": "hgeJO--mk",
-  "version": 47
+  "version": 48
 }
