@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1542318630837,
+  "iteration": 1542983615192,
   "links": [],
   "panels": [
     {
@@ -393,6 +393,84 @@
       "valueName": "current"
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": true,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "rgb(255, 197, 166)",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_RASP}",
+      "decimals": 2,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 8,
+        "y": 0
+      },
+      "id": 14,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": " €",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(234, 234, 234, 0.17)",
+        "full": false,
+        "lineColor": "rgba(252, 226, 222, 0)",
+        "show": true
+      },
+      "tableColumn": "HHPHC",
+      "targets": [
+        {
+          "expr": "teleinfo_base / 1000 * 0.153",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "999999",
+      "title": "",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [],
+      "valueName": "delta"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -425,7 +503,7 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "index rate",
+          "alias": "index delta",
           "bars": true,
           "lines": false,
           "yaxis": 2,
@@ -439,15 +517,15 @@
         {
           "expr": "teleinfo_base",
           "format": "time_series",
-          "intervalFactor": 2,
+          "intervalFactor": 3,
           "legendFormat": "Index de base",
           "refId": "A"
         },
         {
-          "expr": "rate(teleinfo_base[$interval]) * 60 * 60",
+          "expr": "delta(teleinfo_base[$interval])",
           "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "index rate",
+          "intervalFactor": 3,
+          "legendFormat": "index delta",
           "refId": "B"
         }
       ],
@@ -479,7 +557,7 @@
           "show": true
         },
         {
-          "format": "watt",
+          "format": "watth",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -821,7 +899,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -852,5 +930,5 @@
   "timezone": "",
   "title": "Teleinfo",
   "uid": "hgeJO--mk",
-  "version": 48
+  "version": 59
 }
